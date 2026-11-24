@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const TaskMateApp());
@@ -35,14 +36,7 @@ class TaskMateApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
-        '/home': (context) => const Scaffold(
-          body: Center(
-            child: Text(
-              'TaskMate Home Dashboard',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
+        '/home': (context) => const HomeScreen(),
       },
     );
   }
