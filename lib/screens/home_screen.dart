@@ -83,6 +83,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // ---------- Actions ----------
 
+  Future<void> _openPage(String route) async {
+    await Navigator.pushNamed(context, route);
+    if (!mounted) return;
+    // Muat ulang karena task bisa berubah dari halaman lain.
+    final tasks = await TaskService.loadTasks();
+    if (!mounted) return;
+    setState(() => _tasks = tasks);
+  }
+
   Future<void> _openTaskForm({Task? task}) async {
     final result = await Navigator.push<Task>(
       context,
@@ -193,15 +202,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHeader() {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 24,
-          backgroundColor: _primary,
-          child: Text(
-            _userName.isEmpty ? '?' : _userName[0].toUpperCase(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+        GestureDetector(
+          onTap: () => _openPage('/profile'),
+          child: CircleAvatar(
+            radius: 24,
+            backgroundColor: _primary,
+            child: Text(
+              _userName.isEmpty ? '?' : _userName[0].toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -223,6 +235,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+        ),
+        IconButton(
+          tooltip: 'Kalender',
+          onPressed: () => _openPage('/calendar'),
+          icon: const Icon(Icons.calendar_month_outlined, color: _dark),
         ),
       ],
     );
